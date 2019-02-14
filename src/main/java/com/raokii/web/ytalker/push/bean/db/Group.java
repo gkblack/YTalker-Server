@@ -26,18 +26,23 @@ public class Group {
     @Column(updatable = false, nullable = false)
     private String id;
 
+    // 群创建者
+    //
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ownerId")
+    private User owner;
     @Column(nullable = false )
     private String ownerId;
 
     // 群组描述
-    @Column
+    @Column(nullable = false)
     private String description;
 
     // 群组名
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String picture;
 
     // 定义为创建时间戳，在创建时就写入
