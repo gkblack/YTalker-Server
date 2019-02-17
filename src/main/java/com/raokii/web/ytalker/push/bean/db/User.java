@@ -45,7 +45,7 @@ public class User {
     private String portrait;
 
     @Column
-    private String description;
+    private String desc;
 
     @Column(nullable = false)
     private int sex = 0;
@@ -133,12 +133,12 @@ public class User {
         this.portrait = portrait;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getSex() {
@@ -187,5 +187,29 @@ public class User {
 
     public void setLastReceivedAt(LocalDateTime lastReceivedAt) {
         this.lastReceivedAt = lastReceivedAt;
+    }
+
+    public Set<UserFollow> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(Set<UserFollow> following) {
+        this.following = following;
+    }
+
+    public Set<UserFollow> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<UserFollow> followers) {
+        this.followers = followers;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }

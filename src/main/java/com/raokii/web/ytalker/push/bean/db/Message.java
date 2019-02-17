@@ -1,7 +1,6 @@
 package com.raokii.web.ytalker.push.bean.db;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -29,10 +28,6 @@ public class Message {
     // 主键
     @Id
     @PrimaryKeyJoinColumn
-    // 主键生成存储的类型为UUID
-    @GeneratedValue(generator = "uuid")
-    // 把uuid的生成器定义为uuid2， uuid2是常规的uuid toString
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     // 不允许修改， 不允许为null
     @Column(updatable = false, nullable = false)
     private String id;
@@ -55,10 +50,12 @@ public class Message {
     // 对应 User.id
     @JoinColumn(name = "senderId")
     private User sender;
+    // senderId 是从user表中拿到的，不可修改
     @Column(updatable = false, insertable = false)
     private String senderId;
 
     // 多个消息对应一个接收者
+    // Many对应这个类， One对应User
     @ManyToOne
     // 对应 User.id
     @JoinColumn(name = "receiverId")
