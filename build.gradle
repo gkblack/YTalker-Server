@@ -23,7 +23,7 @@ dependencies {
     compile 'org.glassfish.jersey.core:jersey-client:2.26-b03'
     compile 'org.glassfish.jersey.core:jersey-server:2.26-b03'
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.26-b03'
-    // 也是一个 Json 解析库
+    // Json 解析库
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.26-b03'
 
     // 数据库操作框架
