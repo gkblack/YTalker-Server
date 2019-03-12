@@ -23,7 +23,6 @@ buildNumber.properties
 *.ctxt
 
 # Gradle files
-.gradle
 build
 
 # Mobile Tools for Java (J2ME)
