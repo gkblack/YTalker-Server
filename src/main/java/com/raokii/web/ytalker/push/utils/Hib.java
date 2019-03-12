@@ -18,9 +18,10 @@ public class Hib {
 
     /**
      * 获取全局的sessionFactory
+     *
      * @return
      */
-    public static SessionFactory sessionFactory(){
+    public static SessionFactory sessionFactory() {
         return sessionFactory;
     }
 
@@ -29,16 +30,17 @@ public class Hib {
         init();
     }
 
-    public static void init(){
+    public static void init() {
+        // 从hibernate.cfg.xml中初始化
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
                 .build();
 
         try {
-            sessionFactory = new MetadataSources()
+            sessionFactory = new MetadataSources(registry)
                     .buildMetadata()
                     .buildSessionFactory();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getStackTrace();
             // 打印错误并销毁
             StandardServiceRegistryBuilder.destroy(registry);
@@ -47,23 +49,29 @@ public class Hib {
 
     /**
      * 得到session会话
+     *
      * @return
      */
-    public static Session session(){
+    public static Session session() {
         return sessionFactory.getCurrentSession();
     }
 
-    public static void closeFactory(){
-        if(sessionFactory != null){
+    public static void closeFactory() {
+        if (sessionFactory != null) {
             sessionFactory.close();
         }
     }
 
-    public interface QueryOnly{
+    public interface QueryOnly {
         void query(Session session);
     }
 
-    public static void queryOnly(QueryOnly query){
+    /**
+     * 仅查询数据，无返回值
+     *
+     * @param query
+     */
+    public static void queryOnly(QueryOnly query) {
         // 重新打开一个session
         Session session = sessionFactory.openSession();
         // 开启事物
@@ -86,17 +94,15 @@ public class Hib {
         } finally {
             session.close();
         }
-
     }
 
     // 用户时间操作的一个接口
-    public interface Query<T>{
+    public interface Query<T> {
         T query(Session session);
     }
 
-    // 简化session操作的工具方法
-    // 具有一个返回值
-    public static <T> T query(Query<T> query){
+    // 简化session操作的工具方法,查询数据并返回查询结果
+    public static <T> T query(Query<T> query) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 

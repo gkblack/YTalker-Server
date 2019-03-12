@@ -7,7 +7,7 @@ import com.raokii.web.ytalker.push.utils.Hib;
 import java.time.LocalDateTime;
 
 /**
- * 用户信息
+ * 用户查询所能看到信息
  * @author Rao
  * @date 2019/2/15
  */
@@ -60,7 +60,7 @@ public class UserCard {
         this.name = user.getName();
         this.phone = user.getPhone();
         this.sex = user.getSex();
-        this.desc = user.getDesc();
+        this.desc = user.getDescription();
         this.protrait = user.getPortrait();
         this.modifyAt = user.getUpdateAt();
 

@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +16,11 @@ import java.util.Set;
  * 用户的Model, 对应数据库
  * @author Rao
  * @date 2019/1/26
+ * 实现Principal接口
  */
 @Entity
 @Table(name = "TB_USER")
-public class User {
+public class User implements Principal {
 
     // 主键
     @Id
@@ -45,7 +48,7 @@ public class User {
     private String portrait;
 
     @Column
-    private String desc;
+    private String description;
 
     @Column(nullable = false)
     private int sex = 0;
@@ -89,7 +92,14 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserFollow> followers = new HashSet<>();
 
-
+    // 我所有创建的群
+    // 对应的字段为：Group.ownerId
+    @JoinColumn(name = "ownerId")
+    // 懒加载集合方式为尽可能的不加载具体的数据，
+    // 当访问groups.size()仅仅查询数量，不加载具体的Group信息
+    // 只有当遍历集合的时候才加载具体的数据
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    // FetchType.LAZY：懒加载，加载用户信息时不加载这个集合
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Group> groups = new HashSet<>();
 
@@ -103,6 +113,11 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
     }
 
     public void setName(String name) {
@@ -133,12 +148,12 @@ public class User {
         this.portrait = portrait;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getSex() {

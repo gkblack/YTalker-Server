@@ -35,7 +35,7 @@ public class Apply {
 
     // 申请的类型
     @Column(nullable = false)
-    private String type;
+    private int type;
 
     // 目标id，不进行强关联，不建立主外键关系
     // type -> TYPE_ADD_USER, User.id
@@ -84,11 +84,11 @@ public class Apply {
         this.attach = attach;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -131,4 +131,6 @@ public class Apply {
     public void setApplicantId(String applicantId) {
         this.applicantId = applicantId;
     }
+
+
 }

@@ -38,7 +38,7 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
                 .excludeFieldsWithoutExposeAnnotation()
                 // 添加Map支持
                 .enableComplexMapKeySerialization();
-        // 添加对java8LocalDateTime的支持
+        // 注册类型转换器，添加对java8LocalDateTime的支持
         builder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeConverter());
         gson = builder.create();
     }
@@ -94,7 +94,7 @@ public class GsonProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<
                         MultivaluedMap<String, Object> httpHeaders,
                         OutputStream entityStream) throws IOException, WebApplicationException {
         try (JsonWriter writer = new JsonWriter(new OutputStreamWriter(entityStream, "UTF-8"))){
-            gson.toJson(t, type, writer);
+            gson.toJson(t, genericType, writer);
             writer.close();
         }
 
