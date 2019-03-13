@@ -59,6 +59,9 @@
                  class="com.raokii.web.ytalker.push.bean.db.User"/>
 
         <mapping package="com.raokii.web.ytalker.push.bean.db"
+                 class="com.raokii.web.ytalker.push.bean.db.UserFollow"/>
+
+        <mapping package="com.raokii.web.ytalker.push.bean.db"
                  class="com.raokii.web.ytalker.push.bean.db.Group"/>
         <mapping package="com.raokii.web.ytalker.push.bean.db"
                  class="com.raokii.web.ytalker.push.bean.db.GroupMember"/>

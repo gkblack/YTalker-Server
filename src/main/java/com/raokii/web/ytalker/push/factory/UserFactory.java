@@ -37,15 +37,16 @@ public class UserFactory {
         );
     }
 
+    // 通过Phone找到User
     public static User findByPhone(String phone) {
-        return (User) Hib.query(session ->
-                session.createQuery("from User where phone=:inPhone")
-                        .setParameter("inPhone", phone)
-                        .uniqueResult());
+        return Hib.query(session -> (User) session
+                .createQuery("from User where phone=:inPhone")
+                .setParameter("inPhone", phone)
+                .uniqueResult());
     }
 
     public static User findById(String id) {
-        return Hib.query(session -> (User)session.get(User.class, id));
+        return Hib.query(session -> (User) session.get(User.class, id));
 //        return (User) Hib.query(session ->
 //                session.createQuery("from User where id=:id")
 //                        .setParameter("id", id)
@@ -68,7 +69,8 @@ public class UserFactory {
 
     /**
      * 绑定用户id
-     * @param user 当前用户信息
+     *
+     * @param user   当前用户信息
      * @param pushId 用户该次登录pushId
      * @return
      */

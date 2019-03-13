@@ -7,6 +7,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Rao
  * @date 2019/2/15
@@ -16,6 +19,7 @@ public class Hib {
     // 全局的 SessionFactory
     private static SessionFactory sessionFactory;
 
+    private static final Logger LOGGER = Logger.getLogger(Hib.class.getName());
     /**
      * 获取全局的sessionFactory
      *
@@ -23,6 +27,10 @@ public class Hib {
      */
     public static SessionFactory sessionFactory() {
         return sessionFactory;
+    }
+
+    public static void setup() {
+        LOGGER.log(Level.INFO, "Hibernate setup succeed!");
     }
 
     static {

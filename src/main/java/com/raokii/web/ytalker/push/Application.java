@@ -3,6 +3,7 @@ package com.raokii.web.ytalker.push;
 import com.raokii.web.ytalker.push.provider.AuthRequestFilter;
 import com.raokii.web.ytalker.push.provider.GsonProvider;
 import com.raokii.web.ytalker.push.service.AccountService;
+import com.raokii.web.ytalker.push.utils.Hib;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.util.logging.Logger;
@@ -24,6 +25,9 @@ public class Application extends ResourceConfig {
 //        register(JacksonJsonProvider.class);
         // 替换为Gson解析方法
         register(GsonProvider.class);
+
+        // 启动时初始化hib
+        Hib.setup();
 
         register(Logger.class);
 

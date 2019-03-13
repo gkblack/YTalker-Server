@@ -1,6 +1,7 @@
 package com.raokii.web.ytalker.push.bean.db;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Message {
     // 主键
     @Id
     @PrimaryKeyJoinColumn
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     // 不允许修改， 不允许为null
     @Column(updatable = false, nullable = false)
     private String id;
@@ -51,7 +53,7 @@ public class Message {
     @JoinColumn(name = "senderId")
     private User sender;
     // senderId 是从user表中拿到的，不可修改
-    @Column(updatable = false, insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     private String senderId;
 
     // 多个消息对应一个接收者

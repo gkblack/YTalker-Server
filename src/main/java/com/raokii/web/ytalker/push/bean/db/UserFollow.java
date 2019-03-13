@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  * @author Rao
  * @date 2019/2/11
  */
+@Entity
 @Table(name = "TB_USER_FOLLOW")
 public class UserFollow {
 
@@ -48,6 +49,8 @@ public class UserFollow {
     // 定义管理的表字段名为targetId, 对应的是User.id
     @JoinColumn(name = "targetId")
     private User target;
+    @Column(nullable = false, updatable = false, insertable = false)
+    private String targetId;
 
     // 别名，即对target的备注名,可以为null
     @Column
@@ -117,5 +120,13 @@ public class UserFollow {
 
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
 }
