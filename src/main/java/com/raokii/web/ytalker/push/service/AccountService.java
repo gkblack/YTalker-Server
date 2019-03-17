@@ -78,7 +78,7 @@ public class AccountService extends BaseService{
             }
             // 返回当前的账户
             AccountRspModel rspModel = new AccountRspModel(user);
-            return ResponseModel.buildOk();
+            return ResponseModel.buildOk(rspModel);
         }else {
             // 注册异常
             return ResponseModel.buildRegisterError();

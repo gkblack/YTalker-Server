@@ -115,7 +115,7 @@ public class ResponseModel<M> implements Serializable {
     }
 
     public static <M> ResponseModel<M> buildOk(M result) {
-        return new ResponseModel<M>();
+        return new ResponseModel<M>(result);
     }
 
     public static <M> ResponseModel<M> buildParameterError() {
