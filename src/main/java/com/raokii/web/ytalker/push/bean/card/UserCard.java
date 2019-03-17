@@ -24,7 +24,7 @@ public class UserCard {
 
     // 头像
     @Expose
-    private String protrait;
+    private String portrait;
 
     // 描述
     @Expose
@@ -61,7 +61,7 @@ public class UserCard {
         this.phone = user.getPhone();
         this.sex = user.getSex();
         this.desc = user.getDescription();
-        this.protrait = user.getPortrait();
+        this.portrait = user.getPortrait();
         this.modifyAt = user.getUpdateAt();
 
         // 懒加载下没有session，会报错
@@ -100,12 +100,12 @@ public class UserCard {
         this.phone = phone;
     }
 
-    public String getProtrait() {
-        return protrait;
+    public String getPortrait() {
+        return portrait;
     }
 
-    public void setProtrait(String protrait) {
-        this.protrait = protrait;
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
     }
 
     public String getDesc() {
