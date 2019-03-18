@@ -67,8 +67,8 @@ public class UserService extends BaseService{
         return ResponseModel.buildOk(userCards);
     }
 
-    // 关注人
-    @GET
+    // 关注人,修改信息用PUT
+    @PUT
     @Path("/follow/{followId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

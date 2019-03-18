@@ -287,7 +287,7 @@ public class UserFactory {
      */
     public static UserFollow getUserFollow(User origin, User target) {
         return Hib.query(session -> (UserFollow) session
-                .createQuery("from UserFollow where originId =:originId and targetId =:target")
+                .createQuery("from UserFollow where originId =:originId and targetId =:targetId")
                 .setParameter("originId", origin.getId())
                 .setParameter("targetId", target.getId())
                 .setMaxResults(1)
