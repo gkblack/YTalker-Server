@@ -97,4 +97,32 @@ public class UserService extends BaseService{
         // 返回已关注的人的信息
         return ResponseModel.buildOk(new UserCard(followUser, true));
     }
+
+    @GET // 获取某人的信息
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseModel<UserCard> getUser(@PathParam("id") String id){
+        if(Strings.isNullOrEmpty(id)){
+            return ResponseModel.buildParameterError();
+        }
+
+        User self = getSelf();
+        if(self.getId().equalsIgnoreCase(id)){
+            // 返回自身的数据
+            return ResponseModel.buildOk(new UserCard(self, true));
+        }
+
+        User user = UserFactory.findById(id);
+        if(user == null){
+            // 未找到用户
+            return ResponseModel.buildNotFoundUserError(null);
+        }
+
+        // 如果我与查询用户之间有关注记录，则我只需要查询这些有关注信息的用户
+        boolean isFollow = UserFactory.getUserFollow(self, user)!=null;
+
+        return ResponseModel.buildOk(new UserCard(user, isFollow));
+        
+    }
 }
