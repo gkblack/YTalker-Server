@@ -58,7 +58,6 @@ public class AccountService extends BaseService{
             return ResponseModel.buildParameterError();
         }
 
-//        User user = null;
         User user = UserFactory.findByPhone(model.getAccount().trim());
         if (user != null){
             return ResponseModel.buildHaveAccountError();

@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *  推送的具体model，内部维持了一个数组，可添加多个实体
+ *  每次推送的详细数据是：将实体数据进行json操作，然后发送json字符串
+ *  这样如果有多个消息需要推送可以合并进行
  * @author Rao
  * @date 2019/2/17
  */

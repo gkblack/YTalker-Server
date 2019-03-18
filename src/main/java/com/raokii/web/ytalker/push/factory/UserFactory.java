@@ -1,12 +1,19 @@
 package com.raokii.web.ytalker.push.factory;
 
 import com.google.common.base.Strings;
+import com.raokii.web.ytalker.push.bean.card.UserCard;
 import com.raokii.web.ytalker.push.bean.db.User;
+import com.raokii.web.ytalker.push.bean.db.UserFollow;
 import com.raokii.web.ytalker.push.utils.Hib;
 import com.raokii.web.ytalker.push.utils.TextUtil;
+import org.hibernate.mapping.Collection;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @author Rao
@@ -213,6 +220,79 @@ public class UserFactory {
                 .setMaxResults(20) // 至多查询20条数据
                 .list());
 
+    }
+
+    /**
+     * 获取联系人列表
+     *
+     * @param self
+     * @return
+     */
+    public static List<User> contacts(User self) {
+        if (self == null) {
+            return null;
+        }
+        return Hib.query(session -> {
+            // 重新加载一次用户信息到self中，和当前session绑定
+            // 直接self.getFollowing 会报空，因为之前的session已经关闭了，需要重新获取session才能取到值
+            session.load(self, self.getId());
+
+            // 获取关注列表
+            Set<UserFollow> follows = self.getFollowers();
+
+
+            return follows.stream() // 替代for循环方式去赋值
+                    .map(UserFollow::getTarget)
+                    .collect(Collectors.toList());
+        });
+    }
+
+    public static User follow(User origin, User target, String alias) {
+        UserFollow follow = getUserFollow(origin, target);
+        if(follow !=null){
+            // 已经关注则直接返回
+            return follow.getTarget();
+        }
+
+        return Hib.query(session -> {
+            // 操作懒加载的数据需要重新load
+            session.load(origin, origin.getId());
+            session.load(target, target.getId());
+            // 我关注他的时候，同时他也关注我
+            // 需要加载双方的UserFollow数据
+            UserFollow originFollow = new UserFollow();
+            originFollow.setOrigin(origin);
+            originFollow.setTarget(target);
+            // 我对关注的人的备注
+            originFollow.setAlias(alias);
+
+            // 发起人是他时，我是被关注的人的记录
+            UserFollow targetFollow = new UserFollow();
+            targetFollow.setOrigin(target);
+            targetFollow.setTarget(origin);
+
+            // 保存到数据库中
+            session.save(originFollow);
+            session.save(targetFollow);
+
+            return target;
+        });
+    }
+
+    /**
+     * 查询双方是否相互关注
+     * @param origin 发起人
+     * @param target 被关注人
+     * @return 返回中间类UserFollow
+     */
+    public static UserFollow getUserFollow(User origin, User target) {
+        return Hib.query(session -> (UserFollow) session
+                .createQuery("from UserFollow where originId =:originId and targetId =:target")
+                .setParameter("originId", origin.getId())
+                .setParameter("targetId", target.getId())
+                .setMaxResults(1)
+                // 唯一查询返回
+                .uniqueResult());
     }
 
 
