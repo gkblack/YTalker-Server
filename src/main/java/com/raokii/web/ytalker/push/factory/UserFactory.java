@@ -204,7 +204,7 @@ public class UserFactory {
     /**
      * 搜索联系人
      *
-     * @param name
+     * @param name 允许为空
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -215,7 +215,7 @@ public class UserFactory {
         String searchName = "%" + name + "%"; // 模糊查询
         return Hib.query(session -> (List<User>) session
                 .createQuery("from User where lower(name) like :name and portrait is not null" +
-                        "and description is not null")
+                        "and description is not null") // lower忽略大小写， like模糊查询
                 .setParameter("name", searchName)
                 .setMaxResults(20) // 至多查询20条数据
                 .list());
